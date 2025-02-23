@@ -1,6 +1,7 @@
 package com.nguyenanhvu.dao;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.nguyenanhvu.entity.IEntity;
 
@@ -53,5 +54,10 @@ public interface IDao<IDCLASS extends Comparable<IDCLASS>, T extends IEntity<IDC
 	public void handleException(Exception e);
 	
 	public boolean testConnection();
+	
+	public ISearchProperty<T>[] getSearchProperties();
+	
+	public Collection<T> find(Map<ISearchProperty<T>, Object> properties, 
+			Map<ISearchProperty<T>, Boolean> orderBy, Boolean deleted);
 	
 }

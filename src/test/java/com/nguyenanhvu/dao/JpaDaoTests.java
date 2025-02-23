@@ -7,19 +7,24 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import com.nguyenanhvu.entity.AbstractEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 public class JpaDaoTests {
 	
@@ -30,7 +35,33 @@ public class JpaDaoTests {
 	@Table(name = "TEST")
 	private static class TestEntity extends AbstractEntity<Long> {
 		
+		public static enum TestSearchProperty implements ISearchProperty<TestEntity> {
+			
+			FLAG("flag", Integer.class)
+			;
+			
+			@Getter
+			public final String columnName;
+			@Getter
+			public final Class<?> clazz;
+			
+			private TestSearchProperty(String columnName, Class<?> clazz) {
+				this.columnName = columnName;
+				this.clazz = clazz;
+			}
+		}
+		
+		@Column(name = "FLAG")
 		public int flag = 0;
+		
+		public TestEntity() {
+			
+		}
+		
+		public TestEntity(boolean deleted, Integer flag) {
+			this.setDeleted(deleted);
+			this.flag = flag;
+		}
 		
 		public String toString() {
 			return String.format("%d-%b", getId(), isDeleted());
@@ -45,6 +76,12 @@ public class JpaDaoTests {
 
 		@Override
 		public void handleException(Exception e) {
+			e.printStackTrace();
+		}
+
+		@Override
+		public ISearchProperty<TestEntity>[] getSearchProperties() {
+			return TestEntity.TestSearchProperty.values() ;
 		}
 	}
 	
@@ -406,4 +443,83 @@ public class JpaDaoTests {
 		assertNotNull(e);
 	}
 	
+	@Test
+	public void findWithPropertiesTest() {
+		TestDao dao = new TestDao();
+		assertEquals(1, dao.getSearchProperties().length);
+		Map<ISearchProperty<TestEntity>, Object> criterias = new HashMap<>();
+		Map<ISearchProperty<TestEntity>, Boolean> orderBys = new HashMap<>();
+		
+		List<TestEntity> entities = new ArrayList<>();
+		entities.add(new TestEntity(false, 0));
+		entities.add(new TestEntity(false, 1));
+		entities.add(new TestEntity(false, 1));
+		entities.add(new TestEntity(false, 2));
+		entities.add(new TestEntity(false, 2));
+		entities.add(new TestEntity(false, 3));
+		entities.add(new TestEntity(false, 3));
+		entities.add(new TestEntity(false, 4));
+		entities.add(new TestEntity(true, 0));
+		entities.add(new TestEntity(true, 1));
+		entities.add(new TestEntity(true, 1));
+		entities.add(new TestEntity(true, 2));
+		entities.add(new TestEntity(true, 2));
+		entities.add(new TestEntity(true, 3));
+		entities.add(new TestEntity(true, 3));
+		entities.add(new TestEntity(true, 4));
+		
+		dao.save(entities);
+		
+		assertEquals(16, dao.find(null, null, null).size());
+		
+		criterias.put(TestEntity.TestSearchProperty.FLAG, true);
+		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, null);
+		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, 1);
+		assertEquals(4, dao.find(criterias, null, null).size());
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(1, 2));
+		assertEquals(8, dao.find(criterias, null, null).size());
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(true, false));
+		assertEquals(0, dao.find(criterias, null, null).size());
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList());
+		assertEquals(0, dao.find(criterias, null, null).size());
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(1, 2));
+		assertEquals(4, dao.find(criterias, null, true).size());
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(1, 2, 3));
+		orderBys.put(TestEntity.TestSearchProperty.FLAG, true);
+		Collection<TestEntity> res = dao.find(criterias, orderBys, null);
+		assertEquals(12, res.size());
+		assertEquals(1, res.iterator().next().flag);
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(1, 2, 3));
+		orderBys.clear();
+		orderBys.put(TestEntity.TestSearchProperty.FLAG, false);
+		res = dao.find(criterias, orderBys, null);
+		assertEquals(12, res.size());
+		assertEquals(3, res.iterator().next().flag);
+
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.FLAG, Arrays.asList(1, 2, 3));
+		orderBys.clear();
+		orderBys.put(TestEntity.TestSearchProperty.FLAG, null);
+		res = dao.find(criterias, orderBys, null);
+		assertEquals(12, res.size());
+		assertEquals(1, res.iterator().next().flag);
+	}
 }

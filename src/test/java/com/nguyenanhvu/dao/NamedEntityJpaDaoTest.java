@@ -21,6 +21,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 public class NamedEntityJpaDaoTest {
 
@@ -39,6 +40,23 @@ public class NamedEntityJpaDaoTest {
 	@Entity
 	@Table(name = "NAMED_TEST")
 	private static class TestNamedEntity extends AbstractNamedEntity<Long> {
+		
+		public static enum TestNamedEntitySearchProperty implements ISearchProperty<TestNamedEntity> {
+			
+			NAME("name", Integer.class),
+			DELETED("deleted", Integer.class)
+			;
+			
+			@Getter
+			public final String columnName;
+			@Getter
+			public final Class<?> clazz;
+			
+			private TestNamedEntitySearchProperty(String columnName, Class<?> clazz) {
+				this.columnName = columnName;
+				this.clazz = clazz;
+			}
+		}
 		
 		@SuppressWarnings("unused")
 		public TestNamedEntity() {
@@ -62,6 +80,11 @@ public class NamedEntityJpaDaoTest {
 
 		@Override
 		public void handleException(Exception e) {
+		}
+
+		@Override
+		public ISearchProperty<TestNamedEntity>[] getSearchProperties() {
+			return TestNamedEntity.TestNamedEntitySearchProperty.values();
 		}
 	}
 	
