@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import com.nguyenanhvu.dao.jpa.AbstractJpaDao;
-import com.nguyenanhvu.entity.AbstractEntity;
+import com.nguyenanhvu.entity.impl.AbstractEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,6 @@
-package com.nguyenanhvu.entity;
+package com.nguyenanhvu.entity.impl;
+
+import com.nguyenanhvu.entity.IEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

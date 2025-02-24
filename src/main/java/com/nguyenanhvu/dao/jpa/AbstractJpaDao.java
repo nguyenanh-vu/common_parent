@@ -14,7 +14,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T extends IEntity<IDCLASS>> implements IDao<IDCLASS, T> {
@@ -508,7 +507,6 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 			handleException(e);
 			return new ArrayList<>();
 		}
-		
 	}
 	
 	protected CriteriaQuery<T> getQuery(Map<ISearchProperty<T>, Object> properties, 
@@ -540,7 +538,7 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 	protected List<jakarta.persistence.criteria.Predicate> getPredicates(Map<ISearchProperty<T>, Object> properties, 
 			CriteriaBuilder cb, Root<T> rootEntry) throws IllegalArgumentException {
 		
-		List<Predicate> res = new ArrayList<>();
+		List<jakarta.persistence.criteria.Predicate> res = new ArrayList<>();
 		
 		if (properties == null || properties.isEmpty()) {
 			return res;
@@ -549,22 +547,23 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		for (Entry<ISearchProperty<T>, Object> e : properties.entrySet()) {
 			Object o = e.getValue();
 			ISearchProperty<T> property = e.getKey();
+			String columnName = property.getColumnName();
 			if (o == null) {
-				res.add(cb.isNull(rootEntry.get(property.getColumnName())));
+				res.add(cb.isNull(rootEntry.get(columnName)));
 			} else if (property.getClazz().isInstance(o)) {
 				if (String.class.isInstance(o)) {
-					res.add(cb.like(rootEntry.get(property.getColumnName()), (String) o) );
+					res.add(cb.like(rootEntry.get(columnName), (String) o) );
 				} else {
-					res.add(cb.equal(rootEntry.get(property.getColumnName()), o) );
+					res.add(cb.equal(rootEntry.get(columnName), o) );
 				}
 			} else if(Collection.class.isInstance(o)) {
 				Collection<?> c = (Collection<?>) o;
 				if (c.isEmpty()) {
-					res.add(cb.isNull(rootEntry.get(property.getColumnName())));
+					res.add(cb.isNull(rootEntry.get(columnName)));
 				} else {
 					Object firstElemement = c.iterator().next();
 					if (property.getClazz().isInstance(firstElemement)) {
-						res.add(rootEntry.get(property.getColumnName()).in(c.toArray()));
+						res.add(rootEntry.get(columnName).in(c.toArray()));
 					} else {
 						throw new IllegalArgumentException(String.format("expected %s, got Collection<%s>", 
 								property.getClazz().getName(), firstElemement.getClass().getName()));
