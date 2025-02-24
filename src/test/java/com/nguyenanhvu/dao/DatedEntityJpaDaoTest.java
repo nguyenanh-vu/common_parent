@@ -72,11 +72,6 @@ public class DatedEntityJpaDaoTest {
 		public ISearchProperty<TestDatedEntity>[] getSearchProperties() {
 			return TestDatedEntity.TestDatedEntitySearchProperty.values();
 		}
-
-		@Override
-		public String getTimestampColumnName() {
-			return "timestamp";
-		}
 	}
 	
 	@Test

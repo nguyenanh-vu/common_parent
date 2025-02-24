@@ -43,6 +43,11 @@ implements IDatedEntityDao<IDCLASS, T> {
 			return new ArrayList<>();
 		}
 	}
+
+	@Override
+	public String getTimestampColumnName() {
+		return "timestamp";
+	}
 	
 	protected CriteriaQuery<T> getQuery(Map<ISearchProperty<T>, Object> properties, 
 			Map<ISearchProperty<T>, Boolean> orderBy, Boolean deleted,
