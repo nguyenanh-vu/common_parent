@@ -1,4 +1,4 @@
-package com.nguyenanhvu.dao;
+package com.nguyenanhvu.dao.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.nguyenanhvu.dao.IDao;
+import com.nguyenanhvu.dao.ISearchProperty;
 import com.nguyenanhvu.entity.IEntity;
 
 import jakarta.persistence.EntityManager;
@@ -498,34 +500,41 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		try (EntityManager em = getEntityManager()) {
 			
 			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<T> query = cb.createQuery(clazz);
-			Root<T> rootEntry = query.from(clazz);
-			CriteriaQuery<T> all = query.select(rootEntry);
-			
-			List<jakarta.persistence.criteria.Predicate> predicates = getPredicates(properties,cb, rootEntry);
-			if (deleted != null) {
-				predicates.add(cb.equal(rootEntry.get("deleted"), deleted ? 1 : 0 ));
-			}
-			
-			
-			if (!predicates.isEmpty()) {
-				if (predicates.size() == 1) {
-					all = all.where(predicates.get(0));
-				} else {
-					all = all.where(cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])));
-				}
-			}
-			
-			List<jakarta.persistence.criteria.Order> orderBys = getOrderBys(orderBy, cb, rootEntry);
-			if (!orderBys.isEmpty()) {
-				all = all.orderBy(orderBys.toArray(new jakarta.persistence.criteria.Order[0]));
-			}
+			CriteriaQuery<T> rootQuery = cb.createQuery(clazz);
+			Root<T> rootEntry = rootQuery.from(clazz);
+			CriteriaQuery<T> all = getQuery(properties, orderBy, deleted, cb, rootQuery, rootEntry);
 			return em.createQuery(all).getResultList();
 		} catch (Exception e) {
 			handleException(e);
 			return new ArrayList<>();
 		}
 		
+	}
+	
+	protected CriteriaQuery<T> getQuery(Map<ISearchProperty<T>, Object> properties, 
+			Map<ISearchProperty<T>, Boolean> orderBy, Boolean deleted,
+			CriteriaBuilder cb, CriteriaQuery<T> rootQuery, Root<T> rootEntry) {
+		CriteriaQuery<T> all = rootQuery.select(rootEntry);
+		
+		List<jakarta.persistence.criteria.Predicate> predicates = getPredicates(properties,cb, rootEntry);
+		if (deleted != null) {
+			predicates.add(cb.equal(rootEntry.get("deleted"), deleted ? 1 : 0 ));
+		}
+		
+		
+		if (!predicates.isEmpty()) {
+			if (predicates.size() == 1) {
+				all = all.where(predicates.get(0));
+			} else {
+				all = all.where(cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0])));
+			}
+		}
+		
+		List<jakarta.persistence.criteria.Order> orderBys = getOrderBys(orderBy, cb, rootEntry);
+		if (!orderBys.isEmpty()) {
+			all = all.orderBy(orderBys.toArray(new jakarta.persistence.criteria.Order[0]));
+		}
+		return all;
 	}
 	
 	protected List<jakarta.persistence.criteria.Predicate> getPredicates(Map<ISearchProperty<T>, Object> properties, 
@@ -543,7 +552,11 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 			if (o == null) {
 				res.add(cb.isNull(rootEntry.get(property.getColumnName())));
 			} else if (property.getClazz().isInstance(o)) {
-				res.add(cb.equal(rootEntry.get(property.getColumnName()), o) ); 
+				if (String.class.isInstance(o)) {
+					res.add(cb.like(rootEntry.get(property.getColumnName()), (String) o) );
+				} else {
+					res.add(cb.equal(rootEntry.get(property.getColumnName()), o) );
+				}
 			} else if(Collection.class.isInstance(o)) {
 				Collection<?> c = (Collection<?>) o;
 				if (c.isEmpty()) {

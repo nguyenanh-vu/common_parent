@@ -1,9 +1,10 @@
-package com.nguyenanhvu.dao;
+package com.nguyenanhvu.dao.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.nguyenanhvu.dao.INamedEntityDao;
 import com.nguyenanhvu.entity.INamedEntity;
 
 import jakarta.persistence.EntityManager;

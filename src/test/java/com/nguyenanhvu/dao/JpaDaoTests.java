@@ -16,6 +16,7 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import com.nguyenanhvu.dao.jpa.AbstractJpaDao;
 import com.nguyenanhvu.entity.AbstractEntity;
 
 import jakarta.persistence.Column;
@@ -37,7 +38,8 @@ public class JpaDaoTests {
 		
 		public static enum TestSearchProperty implements ISearchProperty<TestEntity> {
 			
-			FLAG("flag", Integer.class)
+			FLAG("flag", Integer.class),
+			STRING("string", String.class)
 			;
 			
 			@Getter
@@ -54,6 +56,9 @@ public class JpaDaoTests {
 		@Column(name = "FLAG")
 		public int flag = 0;
 		
+		@Column(name = "STRING")
+		public String string = "";
+		
 		public TestEntity() {
 			
 		}
@@ -61,6 +66,11 @@ public class JpaDaoTests {
 		public TestEntity(boolean deleted, Integer flag) {
 			this.setDeleted(deleted);
 			this.flag = flag;
+		}
+		
+		public TestEntity(boolean deleted, String string) {
+			this.setDeleted(deleted);
+			this.string = string;
 		}
 		
 		public String toString() {
@@ -76,7 +86,6 @@ public class JpaDaoTests {
 
 		@Override
 		public void handleException(Exception e) {
-			e.printStackTrace();
 		}
 
 		@Override
@@ -446,7 +455,7 @@ public class JpaDaoTests {
 	@Test
 	public void findWithPropertiesTest() {
 		TestDao dao = new TestDao();
-		assertEquals(1, dao.getSearchProperties().length);
+		assertEquals(2, dao.getSearchProperties().length);
 		Map<ISearchProperty<TestEntity>, Object> criterias = new HashMap<>();
 		Map<ISearchProperty<TestEntity>, Boolean> orderBys = new HashMap<>();
 		
@@ -478,6 +487,9 @@ public class JpaDaoTests {
 		criterias.clear();
 		criterias.put(TestEntity.TestSearchProperty.FLAG, null);
 		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		assertEquals(16, dao.find(criterias, null, null).size());
 		
 		criterias.clear();
 		criterias.put(TestEntity.TestSearchProperty.FLAG, 1);
@@ -521,5 +533,55 @@ public class JpaDaoTests {
 		res = dao.find(criterias, orderBys, null);
 		assertEquals(12, res.size());
 		assertEquals(1, res.iterator().next().flag);
+	}
+	
+	@Test
+	public void findWithStringPropertiesTest()  {
+		
+		TestDao dao = new TestDao();
+		Map<ISearchProperty<TestEntity>, Object> criterias = new HashMap<>();
+		
+		List<TestEntity> entities = new ArrayList<>();
+		entities.add(new TestEntity(false, "aaa"));
+		entities.add(new TestEntity(false, "aab"));
+		entities.add(new TestEntity(false, "aab"));
+		entities.add(new TestEntity(false, "bbb"));
+		entities.add(new TestEntity(false, "bbb"));
+		entities.add(new TestEntity(false, "ccc"));
+		entities.add(new TestEntity(false, "ccc"));
+		entities.add(new TestEntity(false, "ddd"));
+		entities.add(new TestEntity(true, "aaa"));
+		entities.add(new TestEntity(true, "aab"));
+		entities.add(new TestEntity(true, "aab"));
+		entities.add(new TestEntity(true, "bbb"));
+		entities.add(new TestEntity(true, "bbb"));
+		entities.add(new TestEntity(true, "ccc"));
+		entities.add(new TestEntity(true, "ccc"));
+		entities.add(new TestEntity(true, "ddd"));
+		
+		dao.save(entities);
+		
+		criterias.put(TestEntity.TestSearchProperty.STRING, true);
+		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.STRING, "aaa");
+		assertEquals(2, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.STRING, "a%");
+		assertEquals(6, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.STRING, "eee");
+		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.STRING, "");
+		assertEquals(0, dao.find(criterias, null, null).size());
+		
+		criterias.clear();
+		criterias.put(TestEntity.TestSearchProperty.STRING, Arrays.asList("aaa", "a%"));
+		assertEquals(2, dao.find(criterias, null, null).size());
 	}
 }
