@@ -17,6 +17,10 @@ public interface IDao<IDCLASS extends Comparable<IDCLASS>, T extends IEntity<IDC
 	
 	public int update(Collection<T> entities);
 	
+	public boolean saveOrUpdate(T entity);
+	
+	public int saveOrUpdate(Collection<T> entities);
+	
 	public boolean remove(T entity);
 	
 	public int remove(Collection<T> entities);

@@ -165,6 +165,26 @@ public class JpaDaoTests {
 			TestEntity found = dao.findById(t.getId());
 			assertEquals(0, found.flag);
 		}
+
+		toPersist.add(new TestEntity());
+		for (TestEntity t : toPersist) {
+			t.flag = 1;
+			assertTrue(dao.saveOrUpdate(t));
+			TestEntity found = dao.findById(t.getId());
+			assertNotNull(found);
+			assertEquals(1, found.flag);
+		}
+		
+		toPersist.add(new TestEntity());
+		for (TestEntity t : toPersist) {
+			t.flag = 0;
+		}
+		assertEquals(toPersist.size(), dao.saveOrUpdate(toPersist));
+		for (TestEntity t : toPersist) {
+			TestEntity found = dao.findById(t.getId());
+			assertNotNull(found);
+			assertEquals(0, found.flag);
+		}
 		
 	}
 	

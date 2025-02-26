@@ -121,6 +121,52 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 	}
 
 	@Override
+	public boolean saveOrUpdate(T entity) {
+		EntityManager em = getEntityManager();
+		if (entity == null) {
+			return false;
+		}
+		try {
+			boolean res;
+			em.getTransaction().begin();
+			res = saveOrUpdate(em, entity);
+			em.getTransaction().commit();
+			return res;
+		} catch (Exception e) {
+			handleException(e);
+			em.getTransaction().rollback();
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public int saveOrUpdate(Collection<T> entities) {
+		EntityManager em = getEntityManager();
+		if (entities == null) {
+			return 0;
+		}
+		try {
+			int res = 0;
+			em.getTransaction().begin();
+			for (T t : entities) {
+				if (saveOrUpdate(em, t)) {
+					res ++;
+				}
+			}
+			em.getTransaction().commit();
+			return res;
+		} catch (Exception e) {
+			handleException(e);
+			em.getTransaction().rollback();
+			return 0;
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
 	public boolean update(T entity) {
 		EntityManager em = getEntityManager();
 		if (entity == null) {
@@ -629,13 +675,22 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		}
 	}
 	
+	protected boolean saveOrUpdate(EntityManager em, T e) {
+		if (has(em, e)) {
+			em.persist(em.merge(e));
+		} else {
+			em.persist(e);
+		}
+		return true;
+	}
+	
 	protected boolean update(EntityManager em, T e) {
 		if (has(em, e)) {
 			em.persist(em.merge(e));
-			return true;
 		} else {
 			return false;
 		}
+		return true;
 	}
 	
 	protected void remove(EntityManager em, T e) {
