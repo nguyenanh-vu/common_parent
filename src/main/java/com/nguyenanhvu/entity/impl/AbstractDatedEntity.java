@@ -15,7 +15,7 @@ implements IDatedEntity<IDCLASS> {
 	@Column(name = "TIMESTAMP")
 	@Getter
 	@Setter
-	private java.sql.Timestamp timestamp;
+	private java.sql.Timestamp timestamp = null;
 	
 	public AbstractDatedEntity() {
 		super();
