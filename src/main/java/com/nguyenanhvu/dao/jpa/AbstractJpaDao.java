@@ -666,7 +666,7 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		return e.getId() != null && em.find(clazz, e.getId()) != null;
 	}
 	
-	protected boolean save(EntityManager em, T e) {
+	public boolean save(EntityManager em, T e) {
 		if (!has(em, e)) {
 			em.persist(e);
 			return true;
@@ -675,7 +675,7 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		}
 	}
 	
-	protected boolean saveOrUpdate(EntityManager em, T e) {
+	public boolean saveOrUpdate(EntityManager em, T e) {
 		if (has(em, e)) {
 			em.persist(em.merge(e));
 		} else {
@@ -684,7 +684,7 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		return true;
 	}
 	
-	protected boolean update(EntityManager em, T e) {
+	public boolean update(EntityManager em, T e) {
 		if (has(em, e)) {
 			em.persist(em.merge(e));
 		} else {
