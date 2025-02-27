@@ -85,6 +85,10 @@ implements IDatedEntityDao<IDCLASS, T> {
 		}
 		String columnName = getTimestampColumnName();
 		
+		if (criteria.isNull) {
+			res.add(cb.isNull(rootEntry.get(columnName)));
+		}
+		
 		if (criteria.after != null) {
 			if (criteria.strict) {
 				res.add(cb.greaterThanOrEqualTo(rootEntry.get(columnName), java.sql.Timestamp.valueOf(criteria.after)));

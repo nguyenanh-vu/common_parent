@@ -117,5 +117,7 @@ public class DatedEntityJpaDaoTest {
 						LocalDateTime.of(2025, 11, 15, 0, 0), 
 						LocalDateTime.of(2026, 11, 11, 0, 0), 
 						true)).size());
+		assertEquals(2, dao.findWithTimestamp(null, null, null, 
+				TimeSearchCriteria.isNull()).size());
 	}
 }
