@@ -23,9 +23,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 public class JpaDaoTests {
 	
@@ -52,6 +56,12 @@ public class JpaDaoTests {
 				this.clazz = clazz;
 			}
 		}
+		
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO)
+		@Getter
+		@Setter
+		private Long id = null;
 		
 		@Column(name = "FLAG")
 		public int flag = 0;

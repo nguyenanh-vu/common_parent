@@ -14,12 +14,6 @@ import lombok.Setter;
 public abstract class AbstractEntity<IDCLASS extends Comparable<IDCLASS>> 
 implements IEntity<IDCLASS> {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Getter
-	@Setter
-	private IDCLASS id = null;
-	
 	@Column(name="DELETED")
 	private int deleted = 0;
 	
@@ -27,7 +21,7 @@ implements IEntity<IDCLASS> {
 	}
 	
 	public AbstractEntity(IDCLASS id) {
-		this.id = id;
+		setId(id);
 	}
 	
 	public AbstractEntity(boolean deleted) {
@@ -35,7 +29,7 @@ implements IEntity<IDCLASS> {
 	}
 	
 	public AbstractEntity(IDCLASS id, boolean deleted) {
-		this.id = id;
+		setId(id);
 		this.deleted = deleted ? 1 : 0;
 	}
 	

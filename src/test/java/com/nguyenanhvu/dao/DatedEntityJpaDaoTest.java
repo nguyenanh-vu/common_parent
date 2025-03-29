@@ -14,9 +14,13 @@ import com.nguyenanhvu.entity.impl.AbstractDatedEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 public class DatedEntityJpaDaoTest {
 
@@ -43,6 +47,12 @@ public class DatedEntityJpaDaoTest {
 				this.clazz = clazz;
 			}
 		}
+		
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO)
+		@Getter
+		@Setter
+		private Long id = null;
 		
 		public TestDatedEntity() {
 			super();
