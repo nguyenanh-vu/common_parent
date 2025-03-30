@@ -4,5 +4,5 @@ public interface IDatedEntity<IDCLASS extends Comparable<IDCLASS>> extends IEnti
 	
 	public java.sql.Timestamp getTimestamp();
 	
-	public void setTimestamp(java.sql.Timestamp timestamp);
+	public IEntity<IDCLASS> setTimestamp(java.sql.Timestamp timestamp);
 }

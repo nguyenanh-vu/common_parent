@@ -27,6 +27,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 public class NamedEntityJpaDaoTest {
 
@@ -44,6 +45,7 @@ public class NamedEntityJpaDaoTest {
 
 	@Entity
 	@Table(name = "NAMED_TEST")
+	@Accessors(chain = true)
 	private static class TestNamedEntity extends AbstractNamedEntity<Long> {
 		
 		public static enum TestNamedEntitySearchProperty implements ISearchProperty<TestNamedEntity> {

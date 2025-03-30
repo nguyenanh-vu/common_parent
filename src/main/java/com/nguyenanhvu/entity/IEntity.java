@@ -4,11 +4,11 @@ public interface IEntity<IDCLASS extends Comparable<IDCLASS>> {
 
 	public IDCLASS getId();
 	
-	public void setId(IDCLASS id);
+	public IEntity<IDCLASS> setId(IDCLASS id);
 	
 	public boolean isDeleted();
 	
-	public void setDeleted();
+	public IEntity<IDCLASS> setDeleted();
 	
-	public void setDeleted(boolean deleted);
+	public IEntity<IDCLASS> setDeleted(boolean deleted);
 }

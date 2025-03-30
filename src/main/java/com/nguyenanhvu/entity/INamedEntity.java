@@ -4,5 +4,5 @@ public interface INamedEntity<IDCLASS extends Comparable<IDCLASS>> extends IEnti
 	
 	public String getName();
 	
-	public void setName(String name);
+	public IEntity<IDCLASS> setName(String name);
 }

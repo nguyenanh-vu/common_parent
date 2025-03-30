@@ -3,14 +3,11 @@ package com.nguyenanhvu.entity.impl;
 import com.nguyenanhvu.entity.IEntity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @MappedSuperclass
+@Accessors(chain = true)
 public abstract class AbstractEntity<IDCLASS extends Comparable<IDCLASS>> 
 implements IEntity<IDCLASS> {
 	
@@ -37,12 +34,13 @@ implements IEntity<IDCLASS> {
 		return deleted != 0;
 	}
 	
-	public void setDeleted() {
-		setDeleted(true);
+	public IEntity<IDCLASS> setDeleted() {
+		return setDeleted(true);
 	}
 	
-	public void setDeleted(boolean deleted) {
+	public IEntity<IDCLASS> setDeleted(boolean deleted) {
 		this.deleted  = deleted ? 1 : 0;
+		return this;
 	}
 	
 }

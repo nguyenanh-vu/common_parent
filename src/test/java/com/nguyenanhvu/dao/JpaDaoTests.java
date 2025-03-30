@@ -30,6 +30,7 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 public class JpaDaoTests {
 	
@@ -38,6 +39,7 @@ public class JpaDaoTests {
 
 	@Entity
 	@Table(name = "TEST")
+	@Accessors(chain = true)
 	private static class TestEntity extends AbstractEntity<Long> {
 		
 		public static enum TestSearchProperty implements ISearchProperty<TestEntity> {

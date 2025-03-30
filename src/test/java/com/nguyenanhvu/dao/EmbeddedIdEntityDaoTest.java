@@ -27,6 +27,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 public class EmbeddedIdEntityDaoTest {
 	
@@ -36,6 +37,7 @@ public class EmbeddedIdEntityDaoTest {
 	@Entity
 	@Table(name = "EMBEDDEDIDTEST")
 	@IdClass(EmbeddedIdTestEntity.IdClass.class)
+	@Accessors(chain = true)
 	private static class EmbeddedIdTestEntity extends AbstractEntity<EmbeddedIdTestEntity.IdClass> {
 		
 		public static enum TestSearchProperty implements ISearchProperty<EmbeddedIdTestEntity> {
@@ -110,7 +112,7 @@ public class EmbeddedIdEntityDaoTest {
 		}
 
 		@Override
-		public void setId(IdClass id) {
+		public EmbeddedIdTestEntity setId(IdClass id) {
 			if (id == null) {
 				this.key1 = 0l;
 				this.key2 = "";
@@ -118,6 +120,7 @@ public class EmbeddedIdEntityDaoTest {
 				this.key1 = id.key1;
 				this.key2 = id.key2;
 			}
+			return this;
 		}
 	}
 	

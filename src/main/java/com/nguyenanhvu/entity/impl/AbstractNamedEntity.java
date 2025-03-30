@@ -6,8 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @MappedSuperclass
+@Accessors(chain = true)
 public abstract class AbstractNamedEntity<IDCLASS extends Comparable<IDCLASS>> 
 extends AbstractEntity<IDCLASS> 
 implements INamedEntity<IDCLASS> {
