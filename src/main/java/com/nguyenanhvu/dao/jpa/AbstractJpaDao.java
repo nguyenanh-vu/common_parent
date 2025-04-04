@@ -2,6 +2,7 @@ package com.nguyenanhvu.dao.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,13 +55,13 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 	@Override
 	public Collection<T> findByIds(Collection<IDCLASS> ids) {
 		if (ids == null) {
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 		try (EntityManager em = getEntityManager()) {
 			return em.createQuery(getFindIdsDeletedQuery(em, false, ids)).getResultList();
 		} catch (Exception e) {
 			handleException(e);
-			return new ArrayList<>();
+			return Collections.emptyList();
 		} 
 	}
 
@@ -551,7 +552,7 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 			return em.createQuery(all).getResultList();
 		} catch (Exception e) {
 			handleException(e);
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 	}
 	

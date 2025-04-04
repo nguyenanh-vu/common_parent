@@ -2,6 +2,7 @@ package com.nguyenanhvu.dao.jpa;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ implements IDatedEntityDao<IDCLASS, T> {
 			return em.createQuery(all).getResultList();
 		} catch (Exception e) {
 			handleException(e);
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 	}
 
