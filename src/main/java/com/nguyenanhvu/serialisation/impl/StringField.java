@@ -27,7 +27,7 @@ public class StringField<U extends DataModel<U>> extends AbstractField<String, U
 	@Override
 	public String read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof String)) {
+		if (!(res instanceof String)) {
 			return getDefaultValue();
 		}
 		return (String) res;
@@ -36,7 +36,7 @@ public class StringField<U extends DataModel<U>> extends AbstractField<String, U
 	@Override
 	public String readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof String)) {
+		if (!(res instanceof String)) {
 			return getDefaultValue();
 		}
 		return (String) res;

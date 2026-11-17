@@ -14,7 +14,7 @@ public abstract class AbstractFactory<T extends DataModel<T>> implements Factory
 	
 	protected final Map<String, Field<?,T>> fieldMap;
 	
-	public AbstractFactory(Set<Field<?,T>> fields) {
+	protected AbstractFactory(Set<Field<?,T>> fields) {
 		fieldMap = new HashMap<>();
 		for (Field<?,T> f : fields) {
 			fieldMap.put(f.getName().toUpperCase(), f);

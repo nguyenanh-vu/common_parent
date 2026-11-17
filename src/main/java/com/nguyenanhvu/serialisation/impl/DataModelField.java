@@ -34,7 +34,7 @@ public class DataModelField<T extends DataModel<T>, U extends DataModel<U>> exte
 	@Override
 	public T read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof Map)) {
+		if (!(res instanceof Map)) {
 			return getDefaultValue();
 		}
 		try {
@@ -49,7 +49,7 @@ public class DataModelField<T extends DataModel<T>, U extends DataModel<U>> exte
 	@Override
 	public T readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof JSONObject)) {
+		if (!(res instanceof JSONObject)) {
 			return getDefaultValue();
 		}
 		try {

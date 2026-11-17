@@ -17,11 +17,11 @@ public abstract class AbstractNamedEntityJpaDao<IDCLASS extends Comparable<IDCLA
 extends AbstractJpaDao<IDCLASS, T>
 implements INamedEntityDao<IDCLASS, T> {
 
-	public AbstractNamedEntityJpaDao(Class<T> clazz, EntityManagerFactory emf) {
+	protected AbstractNamedEntityJpaDao(Class<T> clazz, EntityManagerFactory emf) {
 		super(clazz, emf);
 	}
 
-	public AbstractNamedEntityJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
+	protected AbstractNamedEntityJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
 		super(clazz, tableName, emf);
 	}
 

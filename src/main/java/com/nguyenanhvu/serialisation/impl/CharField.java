@@ -27,19 +27,23 @@ public class CharField<U extends DataModel<U>> extends AbstractField<Character, 
 	@Override
 	public Character read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof Character)) {
-			return getDefaultValue();
+		if (res instanceof Character) {
+			return (Character) res;
+		} else if (res instanceof String && !((String) res).isEmpty()) {
+			return ((String) res).charAt(0);
 		}
-		return (Character) res;
+		return getDefaultValue();
 	}
 
 	@Override
 	public Character readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof Character)) {
-			return getDefaultValue();
+		if (res instanceof Character) {
+			return (Character) res;
+		} else if (res instanceof String && !((String) res).isEmpty()) {
+			return ((String) res).charAt(0);
 		}
-		return (Character) res;
+		return getDefaultValue();
 	}
 
 	@Override

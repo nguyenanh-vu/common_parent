@@ -93,6 +93,7 @@ public class NamedEntityJpaDaoTest {
 
 		@Override
 		public void handleException(Exception e) {
+			// PASS
 		}
 
 		@Override

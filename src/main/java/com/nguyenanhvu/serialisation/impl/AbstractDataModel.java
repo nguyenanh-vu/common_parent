@@ -18,7 +18,7 @@ public abstract class AbstractDataModel<T extends AbstractDataModel<T>> implemen
 	
 	protected final Map<String, Field<?,T>> fieldMap;
 	
-	public AbstractDataModel(Set<Field<?,T>> fields) {
+	protected AbstractDataModel(Set<Field<?,T>> fields) {
 		fieldMap = new HashMap<>();
 		for (Field<?,T> f : fields) {
 			fieldMap.put(f.getName().toUpperCase(), f);

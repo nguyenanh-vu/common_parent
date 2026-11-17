@@ -27,7 +27,7 @@ public class IntegerField<U extends DataModel<U>> extends AbstractField<Integer,
 	@Override
 	public Integer read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof Integer)) {
+		if (!(res instanceof Integer)) {
 			return getDefaultValue();
 		}
 		return (Integer) res;
@@ -36,7 +36,7 @@ public class IntegerField<U extends DataModel<U>> extends AbstractField<Integer,
 	@Override
 	public Integer readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof Integer)) {
+		if (!(res instanceof Integer)) {
 			return getDefaultValue();
 		}
 		return (Integer) res;

@@ -132,6 +132,7 @@ public class EmbeddedIdEntityDaoTest {
 
 		@Override
 		public void handleException(Exception e) {
+			// PASS
 		}
 
 		@Override

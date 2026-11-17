@@ -14,18 +14,18 @@ implements IEntity<IDCLASS> {
 	@Column(name="DELETED")
 	private int deleted = 0;
 	
-	public AbstractEntity() {
+	protected AbstractEntity() {
 	}
 	
-	public AbstractEntity(IDCLASS id) {
+	protected AbstractEntity(IDCLASS id) {
 		setId(id);
 	}
 	
-	public AbstractEntity(boolean deleted) {
+	protected AbstractEntity(boolean deleted) {
 		this.deleted = deleted ? 1 : 0;
 	}
 	
-	public AbstractEntity(IDCLASS id, boolean deleted) {
+	protected AbstractEntity(IDCLASS id, boolean deleted) {
 		setId(id);
 		this.deleted = deleted ? 1 : 0;
 	}
