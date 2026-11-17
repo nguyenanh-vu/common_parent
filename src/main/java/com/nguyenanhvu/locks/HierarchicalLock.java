@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class HierarchicalLock<T> {
 	
-	private Object lock = new Object();
-	private Map<T, Object> keys = new HashMap<>();
+	private final Object lock = new Object();
+	private final Map<T, Object> keys = new HashMap<>();
 	
 	public Object lock() throws InterruptedException {
-		if (!keys.isEmpty()) {
+		while (!keys.isEmpty()) {
 			lock.wait();
 		}
 		return lock;

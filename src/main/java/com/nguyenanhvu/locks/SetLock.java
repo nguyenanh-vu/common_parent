@@ -5,8 +5,8 @@ import java.util.Set;
 
 public class SetLock<T> {
 	
-	private Set<T> set = new HashSet<>();
-	private Object lock = new Object();
+	private final Set<T> set = new HashSet<>();
+	private final Object lock = new Object();
 	
 	public void add(T t) {
 		set.add(t);

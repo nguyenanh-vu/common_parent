@@ -19,38 +19,38 @@ implements INamedEntity<IDCLASS> {
 	@Setter
 	private String name = "";
 	
-	public AbstractNamedEntity() {
+	protected AbstractNamedEntity() {
 		super();
 	}
 	
-	public AbstractNamedEntity(IDCLASS id) {
+	protected AbstractNamedEntity(IDCLASS id) {
 		super(id);
 	}
 	
-	public AbstractNamedEntity(boolean deleted) {
+	protected AbstractNamedEntity(boolean deleted) {
 		super(deleted);
 	}
 	
-	public AbstractNamedEntity(IDCLASS id, boolean deleted) {
+	protected AbstractNamedEntity(IDCLASS id, boolean deleted) {
 		super(id, deleted);
 	}
 	
-	public AbstractNamedEntity(String name) {
+	protected AbstractNamedEntity(String name) {
 		super();
 		this.name = name;
 	}
 	
-	public AbstractNamedEntity(IDCLASS id, String name) {
+	protected AbstractNamedEntity(IDCLASS id, String name) {
 		super(id);
 		this.name = name;
 	}
 	
-	public AbstractNamedEntity(boolean deleted, String name) {
+	protected AbstractNamedEntity(boolean deleted, String name) {
 		super(deleted);
 		this.name = name;
 	}
 	
-	public AbstractNamedEntity(IDCLASS id, boolean deleted, String name) {
+	protected AbstractNamedEntity(IDCLASS id, boolean deleted, String name) {
 		super(id, deleted);
 		this.name = name;
 	}

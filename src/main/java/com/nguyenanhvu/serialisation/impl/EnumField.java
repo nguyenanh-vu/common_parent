@@ -27,7 +27,7 @@ public class EnumField<T extends Enum<T>, U extends DataModel<U>> extends Abstra
 	@Override
 	protected T fromString(String s) {
 		try {
-			return Enum.valueOf(clazz, ((String) s).trim());
+			return Enum.valueOf(clazz, s.trim());
 		} catch (IllegalArgumentException e) {
 			return getDefaultValue();
 		}

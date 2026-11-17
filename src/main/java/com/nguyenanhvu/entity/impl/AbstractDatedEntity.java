@@ -19,38 +19,38 @@ implements IDatedEntity<IDCLASS> {
 	@Setter
 	private java.sql.Timestamp timestamp = null;
 	
-	public AbstractDatedEntity() {
+	protected AbstractDatedEntity() {
 		super();
 	}
 	
-	public AbstractDatedEntity(IDCLASS id) {
+	protected AbstractDatedEntity(IDCLASS id) {
 		super(id);
 	}
 	
-	public AbstractDatedEntity(boolean deleted) {
+	protected AbstractDatedEntity(boolean deleted) {
 		super(deleted);
 	}
 	
-	public AbstractDatedEntity(IDCLASS id, boolean deleted) {
+	protected AbstractDatedEntity(IDCLASS id, boolean deleted) {
 		super(id, deleted);
 	}
 	
-	public AbstractDatedEntity(java.sql.Timestamp timestamp) {
+	protected AbstractDatedEntity(java.sql.Timestamp timestamp) {
 		super();
 		this.timestamp = timestamp;
 	}
 	
-	public AbstractDatedEntity(IDCLASS id, java.sql.Timestamp timestamp) {
+	protected AbstractDatedEntity(IDCLASS id, java.sql.Timestamp timestamp) {
 		super(id);
 		this.timestamp = timestamp;
 	}
 	
-	public AbstractDatedEntity(boolean deleted, java.sql.Timestamp timestamp) {
+	protected AbstractDatedEntity(boolean deleted, java.sql.Timestamp timestamp) {
 		super(deleted);
 		this.timestamp = timestamp;
 	}
 	
-	public AbstractDatedEntity(IDCLASS id, boolean deleted, java.sql.Timestamp timestamp) {
+	protected AbstractDatedEntity(IDCLASS id, boolean deleted, java.sql.Timestamp timestamp) {
 		super(id, deleted);
 		this.timestamp = timestamp;
 	}

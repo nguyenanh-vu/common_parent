@@ -23,7 +23,7 @@ public class UUIDField<U extends DataModel<U>> extends AbstractStringField<UUID,
 	@Override
 	protected UUID fromString(String s) {
 		try {
-			return UUID.fromString((String) s);
+			return UUID.fromString(s.trim());
 		} catch (IllegalArgumentException e) {
 			return getDefaultValue();
 		}

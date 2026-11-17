@@ -98,6 +98,7 @@ public class JpaDaoTests {
 
 		@Override
 		public void handleException(Exception e) {
+			// PASS
 		}
 
 		@Override

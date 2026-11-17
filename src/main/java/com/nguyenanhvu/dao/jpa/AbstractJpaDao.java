@@ -23,13 +23,13 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 	protected final String tableName;
 	private final EntityManagerFactory emf;
 	
-	public AbstractJpaDao(Class<T> clazz, EntityManagerFactory emf) {
+	protected AbstractJpaDao(Class<T> clazz, EntityManagerFactory emf) {
 		this.clazz = clazz;
 		this.tableName = clazz.getSimpleName();
 		this.emf = emf;
 	}
 	
-	public AbstractJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
+	protected AbstractJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
 		this.clazz = clazz;
 		this.tableName = tableName;
 		this.emf = emf;
@@ -598,12 +598,12 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 			if (o == null) {
 				res.add(cb.isNull(rootEntry.get(columnName)));
 			} else if (property.getClazz().isInstance(o)) {
-				if (String.class.isInstance(o)) {
+				if (o instanceof String) {
 					res.add(cb.like(rootEntry.get(columnName), (String) o) );
 				} else {
 					res.add(cb.equal(rootEntry.get(columnName), o) );
 				}
-			} else if(Collection.class.isInstance(o)) {
+			} else if(o instanceof Collection) {
 				Collection<?> c = (Collection<?>) o;
 				if (c.isEmpty()) {
 					res.add(cb.isNull(rootEntry.get(columnName)));
@@ -647,20 +647,16 @@ public abstract class AbstractJpaDao <IDCLASS extends Comparable<IDCLASS>, T ext
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = cb.createQuery(clazz);
 		Root<T> rootEntry = query.from(clazz);
-		CriteriaQuery<T> all = query
-				.where(rootEntry.get("id").in(ids));
-		return all;
+		return query.where(rootEntry.get("id").in(ids));
 	}
 	
 	protected CriteriaQuery<T> getFindIdsDeletedQuery(EntityManager em, boolean deleted, Collection<IDCLASS> ids) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> query = cb.createQuery(clazz);
 		Root<T> rootEntry = query.from(clazz);
-		CriteriaQuery<T> all = query
-				.where(cb.and(
-						cb.equal(rootEntry.get("deleted"), deleted ? 1 : 0),
-						rootEntry.get("id").in(ids)));
-		return all;
+		return query.where(cb.and(
+				cb.equal(rootEntry.get("deleted"), deleted ? 1 : 0),
+				rootEntry.get("id").in(ids)));
 	}
 	
 	protected boolean has(EntityManager em, T e) {

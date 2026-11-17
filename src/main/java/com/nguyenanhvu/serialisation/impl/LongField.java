@@ -27,7 +27,7 @@ public class LongField<U extends DataModel<U>> extends AbstractField<Long, U> {
 	@Override
 	public Long read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof Long)) {
+		if (!(res instanceof Long)) {
 			return getDefaultValue();
 		}
 		return (Long) res;
@@ -36,7 +36,7 @@ public class LongField<U extends DataModel<U>> extends AbstractField<Long, U> {
 	@Override
 	public Long readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof Long)) {
+		if (!(res instanceof Long)) {
 			return getDefaultValue();
 		}
 		return (Long) res;

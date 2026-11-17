@@ -14,7 +14,7 @@ import lombok.NonNull;
 
 public abstract class AbstractStringField<T, U extends DataModel<U>> extends AbstractField<T, U> {
 
-	public AbstractStringField(
+	protected AbstractStringField(
 			boolean optional,
 			@NonNull String name,
 			T defaultValue,
@@ -26,7 +26,7 @@ public abstract class AbstractStringField<T, U extends DataModel<U>> extends Abs
 	@Override
 	public T read(Map<String, Object> map) {
 		Object res = map == null ? null : map.get(name);
-		if (res == null || ! (res instanceof String)) {
+		if (!(res instanceof String)) {
 			return getDefaultValue();
 		}
 		return fromString((String) res);
@@ -35,7 +35,7 @@ public abstract class AbstractStringField<T, U extends DataModel<U>> extends Abs
 	@Override
 	public T readJson(JSONObject json) {
 		Object res = json == null ? null : json.get(name);
-		if (res == null || ! (res instanceof String)) {
+		if (!(res instanceof String)) {
 			return getDefaultValue();
 		}
 		return fromString((String) res);
@@ -44,7 +44,7 @@ public abstract class AbstractStringField<T, U extends DataModel<U>> extends Abs
 	@Override
 	public T readIni(INIConfiguration config, List<String> section) {
 		String res = config == null ? null : config.getString(getIniKey(section));
-		return fromString((String) res);
+		return fromString(res);
 	}
 
 	@SuppressWarnings("unchecked")

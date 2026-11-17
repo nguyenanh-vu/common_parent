@@ -20,11 +20,11 @@ public abstract class AbstractDatedEntityJpaDao<IDCLASS extends Comparable<IDCLA
 extends AbstractJpaDao<IDCLASS, T>
 implements IDatedEntityDao<IDCLASS, T> {
 
-	public AbstractDatedEntityJpaDao(Class<T> clazz, EntityManagerFactory emf) {
+	protected AbstractDatedEntityJpaDao(Class<T> clazz, EntityManagerFactory emf) {
 		super(clazz, emf);
 	}
 
-	public AbstractDatedEntityJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
+	protected AbstractDatedEntityJpaDao(Class<T> clazz, String tableName, EntityManagerFactory emf) {
 		super(clazz, tableName, emf);
 	}
 

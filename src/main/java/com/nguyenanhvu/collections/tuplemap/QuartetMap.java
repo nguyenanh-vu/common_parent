@@ -140,7 +140,7 @@ public class QuartetMap<A,B,C,D,T> extends TupleMap<Quartet<A,B,C,D>,T> {
 		return removeAll(new Trio<A,B,C>(a, b, c));
 	}
 	
-	public Collection<T> removeAllBCD(A a, B b, C c, D d) {
+	public Collection<T> removeAllBCD(B b, C c, D d) {
 		return removeAll(new Trio<B,C,D>(b, c, d), 1);
 	}
 	
