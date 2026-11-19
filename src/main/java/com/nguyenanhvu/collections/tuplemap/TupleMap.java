@@ -1,10 +1,11 @@
 package com.nguyenanhvu.collections.tuplemap;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.nguyenanhvu.collections.tuple.Tuple;
 
@@ -25,13 +26,11 @@ public abstract class TupleMap<K extends Tuple,T> implements Map<K,T> {
 	}
 	
 	public Collection<T> getAll(Tuple filter, int offset) {
-		Collection<T> res = new ArrayList<>();
-		for (Entry<K,T> e : entrySet()) {
-			if (e.getKey().matches(filter, offset)) {
-				res.add(e.getValue());
-			}
-		}
-		return res;
+		return entrySet()
+				.stream()
+				.filter(e -> e.getKey().matches(filter, offset))
+				.map(Entry::getValue)
+				.collect(Collectors.toList());
 	}
 	
 	public Collection<K> getAllKeys(Tuple filter) {
@@ -39,13 +38,10 @@ public abstract class TupleMap<K extends Tuple,T> implements Map<K,T> {
 	}
 	
 	public Collection<K> getAllKeys(Tuple filter, int offset) {
-		Collection<K> res = new ArrayList<>();
-		for (Entry<K,T> e : entrySet()) {
-			if (e.getKey().matches(filter, offset)) {
-				res.add(e.getKey());
-			}
-		}
-		return res;
+		return keySet()
+				.stream()
+				.filter(k -> k.matches(filter, offset))
+				.collect(Collectors.toList());
 	}
 	
 	public Collection<Entry<K,T>> getAllEntries(Tuple filter) {
@@ -53,13 +49,10 @@ public abstract class TupleMap<K extends Tuple,T> implements Map<K,T> {
 	}
 	
 	public Collection<Entry<K,T>> getAllEntries(Tuple filter, int offset) {
-		Collection<Entry<K,T>> res = new ArrayList<>();
-		for (Entry<K,T> e : entrySet()) {
-			if (e.getKey().matches(filter, offset)) {
-				res.add(e);
-			}
-		}
-		return res;
+		return entrySet()
+				.stream()
+				.filter(e -> e.getKey().matches(filter, offset))
+				.collect(Collectors.toList());
 	}
 	
 	public Collection<T> removeAll(Tuple filter) {
@@ -68,7 +61,7 @@ public abstract class TupleMap<K extends Tuple,T> implements Map<K,T> {
 	
 	public Collection<T> removeAll(Tuple filter, int offset) {
 		Collection<K> toRemove = getAllKeys(filter, offset);
-		Collection<T> res = new ArrayList<>();
+		Set<T> res = new HashSet<>();
 		for (K k : toRemove) {
 			res.add(map.remove(k));
 		}
