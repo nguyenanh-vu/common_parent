@@ -30,7 +30,7 @@ public class SetLock<T> {
 	}
 	
 	public void await() throws InterruptedException {
-		if (!set.isEmpty()) {
+		while (!set.isEmpty()) {
 			lock.wait();
 		}
 	}
