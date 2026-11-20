@@ -1,4 +1,4 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
 public class Octet<A,B,C,D,E,F,G,H> extends Septet<A,B,C,D,E,F,G> {
 	
@@ -124,27 +124,27 @@ public class Octet<A,B,C,D,E,F,G,H> extends Septet<A,B,C,D,E,F,G> {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Nonet<?,?,?,?,?,?,?,?,?> push(X element) {
 		return new Nonet<X,A,B,C,D,E,F,G,H>(element, a, b, c, d, e, f, g, h);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Nonet<?,?,?,?,?,?,?,?,?> add(X element) {
 		return new Nonet<A,B,C,D,E,F,G,H,X>(a, b, c, d, e, f, g, h, element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Septet<?,?,?,?,?,?,?> pop() throws IndexOutOfBoundsException {
 		return new Septet<A,B,C,D,E,F,G>(a, b, c, d, e, f, g);
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Septet<?,?,?,?,?,?,?> popLeft() throws IndexOutOfBoundsException {
 		return new Septet<B,C,D,E,F,G,H>(b, c, d, e, f, g, h);
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Nonet<?,?,?,?,?,?,?,?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return push(element);
@@ -173,12 +173,12 @@ public class Octet<A,B,C,D,E,F,G,H> extends Septet<A,B,C,D,E,F,G> {
 		case 8:
 			return add(element);
 		default:
-			return super.insert(index, element);
+			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Septet<?,?,?,?,?,?,?> remove(int index) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return new Septet<B,C,D,E,F,G,H>(b, c, d, e, f, g, h);

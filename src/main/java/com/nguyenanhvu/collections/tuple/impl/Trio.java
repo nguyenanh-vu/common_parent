@@ -1,4 +1,4 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
 public class Trio<A,B,C> extends Duet<A,B> {
 	
@@ -59,27 +59,27 @@ public class Trio<A,B,C> extends Duet<A,B> {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Quartet<?,?,?,?> push(X element) {
 		return new Quartet<X,A,B,C>(element, a, b, c);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Quartet<?,?,?,?> add(X element) {
 		return new Quartet<A,B,C,X>(a, b, c, element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Duet<?,?> pop() throws IndexOutOfBoundsException {
 		return new Duet<A,B>(a, b);
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Duet<?,?> popLeft() throws IndexOutOfBoundsException {
 		return new Duet<B,C>(b, c);
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Quartet<?,?,?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return push(element);
@@ -93,12 +93,12 @@ public class Trio<A,B,C> extends Duet<A,B> {
 		case 3:
 			return add(element);
 		default:
-			return super.insert(index, element);
+			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Duet<?,?> remove(int index) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return new Duet<B,C>(b, c);

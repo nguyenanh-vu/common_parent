@@ -1,4 +1,6 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
+
+import com.nguyenanhvu.collections.tuple.ITuple;
 
 public class Empty extends Tuple {
 
@@ -13,7 +15,7 @@ public class Empty extends Tuple {
 	}
 
 	@Override
-	public Tuple copy() {
+	public ITuple copy() {
 		return new Empty();
 	}
 
@@ -23,27 +25,27 @@ public class Empty extends Tuple {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Solo<?> push(X element) {
 		return new Solo<X>(element);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Solo<?> add(X element) {
 		return new Solo<X>(element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public ITuple pop() throws IndexOutOfBoundsException {
 		throw new IndexOutOfBoundsException("cannot invoke pop() on Empty tuple");
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public ITuple popLeft() throws IndexOutOfBoundsException {
 		throw new IndexOutOfBoundsException("cannot invoke popLeft() on Empty tuple");
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Solo<?> insert(int index, X element) throws IndexOutOfBoundsException {
 		if (index != 0) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
@@ -51,7 +53,7 @@ public class Empty extends Tuple {
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public ITuple remove(int index) throws IndexOutOfBoundsException {
 		throw new IndexOutOfBoundsException("cannot invoke remove() on Empty tuple");
 	}
 }

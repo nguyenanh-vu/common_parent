@@ -1,6 +1,6 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
-public class Solo<A> extends Tuple {
+public class Solo<A> extends Empty {
 	
 	public final A a;
 	
@@ -37,27 +37,27 @@ public class Solo<A> extends Tuple {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Duet<?,?> push(X element) {
 		return new Duet<X,A>(element, a);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Duet<?,?> add(X element) {
 		return new Duet<A,X>(a, element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Empty pop() throws IndexOutOfBoundsException {
 		return new Empty();
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Empty popLeft() throws IndexOutOfBoundsException {
 		return new Empty();
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Duet<?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return push(element);
@@ -70,7 +70,7 @@ public class Solo<A> extends Tuple {
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Empty remove(int index) throws IndexOutOfBoundsException {
 		if (index == 0) {
 			return new Empty();
 		} else {

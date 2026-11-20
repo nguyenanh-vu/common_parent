@@ -1,4 +1,4 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
 public class Decet<A,B,C,D,E,F,G,H,I,J> extends Nonet<A,B,C,D,E,F,G,H,I> {
 	
@@ -15,13 +15,13 @@ public class Decet<A,B,C,D,E,F,G,H,I,J> extends Nonet<A,B,C,D,E,F,G,H,I> {
 	}
 
 	@Override
-	public Decet<A,B,C,D,E,F,G,H,I,J> copy() {
-		return new Decet<>(a, b, c, d, e, f, g, h, i, j);
+	public Object[] toArray() {
+		return new Object[]{a, b, c, d, e, f, g, h, i, j};
 	}
 
 	@Override
-	public Object[] toArray() {
-		return new Object[]{a, b, c, d, e, f, g, h, i, j};
+	public Decet<A,B,C,D,E,F,G,H,I,J> copy() {
+		return new Decet<>(a, b, c, d, e, f, g, h, i, j);
 	}
 
 	@Override
@@ -150,32 +150,32 @@ public class Decet<A,B,C,D,E,F,G,H,I,J> extends Nonet<A,B,C,D,E,F,G,H,I> {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Decet<?,?,?,?,?,?,?,?,?,?> push(X element) {
 		throw new IndexOutOfBoundsException("no push() in Decet");
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Decet<?,?,?,?,?,?,?,?,?,?> add(X element) {
 		throw new IndexOutOfBoundsException("no add() in Decet");
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Nonet<?,?,?,?,?,?,?,?,?> pop() throws IndexOutOfBoundsException {
 		return new Nonet<A,B,C,D,E,F,G,H,I>(a, b, c, d, e, f, g, h, i);
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Nonet<?,?,?,?,?,?,?,?,?> popLeft() throws IndexOutOfBoundsException {
 		return new Nonet<B,C,D,E,F,G,H,I,J>(b, c, d, e, f, g, h, i, j);
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Decet<?,?,?,?,?,?,?,?,?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		throw new IndexOutOfBoundsException("no insert() in Decet");
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Nonet<?,?,?,?,?,?,?,?,?> remove(int index) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return new Nonet<B,C,D,E,F,G,H,I,J>(b, c, d, e, f, g, h, i, j);
