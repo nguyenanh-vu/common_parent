@@ -1,4 +1,4 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
 public class Quintet<A,B,C,D,E> extends Quartet<A,B,C,D> {
 
@@ -85,27 +85,27 @@ public class Quintet<A,B,C,D,E> extends Quartet<A,B,C,D> {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Sextet<?,?,?,?,?,?> push(X element) {
 		return new Sextet<X,A,B,C,D,E>(element, a, b, c, d, e);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Sextet<?,?,?,?,?,?> add(X element) {
 		return new Sextet<A,B,C,D,E,X>(a, b, c, d, e, element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Quartet<?,?,?,?> pop() throws IndexOutOfBoundsException {
 		return new Quartet<A,B,C,D>(a, b, c, d);
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Quartet<?,?,?,?> popLeft() throws IndexOutOfBoundsException {
 		return new Quartet<B,C,D,E>(b, c, d, e);
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Sextet<?,?,?,?,?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return push(element);
@@ -125,12 +125,12 @@ public class Quintet<A,B,C,D,E> extends Quartet<A,B,C,D> {
 		case 5:
 			return add(element);
 		default:
-			return super.insert(index, element);
+			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Quartet<?,?,?,?> remove(int index) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return new Quartet<B,C,D,E>(b, c, d, e);

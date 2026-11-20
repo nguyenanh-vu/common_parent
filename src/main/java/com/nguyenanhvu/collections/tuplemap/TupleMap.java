@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.nguyenanhvu.collections.tuple.Tuple;
+import com.nguyenanhvu.collections.tuple.impl.Tuple;
 
 public abstract class TupleMap<K extends Tuple,T> implements Map<K,T> {
 	

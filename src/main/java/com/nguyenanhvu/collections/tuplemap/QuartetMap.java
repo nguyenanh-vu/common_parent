@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.nguyenanhvu.collections.tuple.Duet;
-import com.nguyenanhvu.collections.tuple.Quartet;
-import com.nguyenanhvu.collections.tuple.Solo;
-import com.nguyenanhvu.collections.tuple.Trio;
+import com.nguyenanhvu.collections.tuple.impl.Duet;
+import com.nguyenanhvu.collections.tuple.impl.Quartet;
+import com.nguyenanhvu.collections.tuple.impl.Solo;
+import com.nguyenanhvu.collections.tuple.impl.Trio;
 
 public class QuartetMap<A,B,C,D,T> extends TupleMap<Quartet<A,B,C,D>,T> {
 	

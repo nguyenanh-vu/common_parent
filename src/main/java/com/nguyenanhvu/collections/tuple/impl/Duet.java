@@ -1,4 +1,4 @@
-package com.nguyenanhvu.collections.tuple;
+package com.nguyenanhvu.collections.tuple.impl;
 
 public class Duet<A,B> extends Solo<A> {
 	
@@ -47,27 +47,27 @@ public class Duet<A,B> extends Solo<A> {
 	}
 
 	@Override
-	public <X> Tuple push(X element) {
+	public <X> Trio<?,?,?> push(X element) {
 		return new Trio<X,A,B>(element, a, b);
 	}
 
 	@Override
-	public <X> Tuple add(X element) {
+	public <X> Trio<?,?,?> add(X element) {
 		return new Trio<A,B,X>(a, b, element);
 	}
 
 	@Override
-	public Tuple pop() throws IndexOutOfBoundsException {
+	public Solo<?> pop() throws IndexOutOfBoundsException {
 		return new Solo<A>(a);
 	}
 
 	@Override
-	public Tuple popLeft() throws IndexOutOfBoundsException {
+	public Solo<?> popLeft() throws IndexOutOfBoundsException {
 		return new Solo<B>(b);
 	}
 
 	@Override
-	public <X> Tuple insert(int index, X element) throws IndexOutOfBoundsException {
+	public <X> Trio<?,?,?> insert(int index, X element) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return push(element);
@@ -78,12 +78,12 @@ public class Duet<A,B> extends Solo<A> {
 		case 2:
 			return add(element);
 		default:
-			return super.insert(index, element);
+			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 	}
 
 	@Override
-	public Tuple remove(int index) throws IndexOutOfBoundsException {
+	public Solo<?> remove(int index) throws IndexOutOfBoundsException {
 		switch (index) {
 		case 0:
 			return new Solo<B>(b);
@@ -94,4 +94,5 @@ public class Duet<A,B> extends Solo<A> {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 	}
+	
 }

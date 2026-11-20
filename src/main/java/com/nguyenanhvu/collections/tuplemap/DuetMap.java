@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.nguyenanhvu.collections.tuple.Duet;
-import com.nguyenanhvu.collections.tuple.Solo;
+import com.nguyenanhvu.collections.tuple.impl.Duet;
+import com.nguyenanhvu.collections.tuple.impl.Solo;
 
 public class DuetMap<A,B,T> extends TupleMap<Duet<A,B>,T> {
 	
